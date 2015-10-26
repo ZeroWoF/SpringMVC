@@ -11,27 +11,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/")
 public class HelloController {
 
-	@Autowired
-	BaseDAO baseDAO;
+    @Autowired
+    BaseDAO baseDAO;
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String printWelcome(ModelMap model) {
-		model.addAttribute("message", baseDAO.read("Test"));
-		baseDAO.save("Test", String.valueOf(System.currentTimeMillis()));
-		return "hello";
-	}
+    @RequestMapping(method = {RequestMethod.GET, RequestMethod.HEAD})
+    public String printWelcome(ModelMap model) {
+        model.addAttribute("message", baseDAO.read("Test"));
+        baseDAO.save("Test", String.valueOf(System.currentTimeMillis()));
+        return "hello";
+    }
 
-	@RequestMapping(value = "jsp", method = RequestMethod.GET)
-	public String printJSP(ModelMap model) {
-		model.addAttribute("message", baseDAO.read("Test"));
-		baseDAO.save("Test", String.valueOf(System.currentTimeMillis()));
-		return "jsp";
-	}
+    @RequestMapping(value = "jsp", method = RequestMethod.GET)
+    public String printJSP(ModelMap model) {
+        model.addAttribute("message", baseDAO.read("Test"));
+        baseDAO.save("Test", String.valueOf(System.currentTimeMillis()));
+        return "jsp";
+    }
 
-	@RequestMapping(value = "freeMarker", method = RequestMethod.GET)
-	public String printFreeMarker(ModelMap model) {
-		model.addAttribute("message", baseDAO.read("Test"));
-		baseDAO.save("Test", String.valueOf(System.currentTimeMillis()));
-		return "freeMarker";
-	}
+    @RequestMapping(value = "freeMarker", method = RequestMethod.GET)
+    public String printFreeMarker(ModelMap model) {
+        model.addAttribute("message", baseDAO.read("Test"));
+        baseDAO.save("Test", String.valueOf(System.currentTimeMillis()));
+        return "freeMarker";
+    }
 }

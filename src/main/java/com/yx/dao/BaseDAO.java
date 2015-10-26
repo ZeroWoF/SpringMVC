@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 
 /**
- * Created by ÐÀ on 2015/10/24 0024.
+ * Created by ï¿½ï¿½ on 2015/10/24 0024.
  */
 @Component("baseDAO")
 public class BaseDAO {
@@ -22,29 +22,38 @@ public class BaseDAO {
     private RedisTemplate<Serializable, Serializable> redisTemplate;
 
     public void save(final String key, final String value) {
-        redisTemplate.execute(new RedisCallback<Object>() {
-            @Override
-            public Object doInRedis(RedisConnection connection)
-                    throws DataAccessException {
-                connection.set(key.getBytes(), value.getBytes());
-                return null;
-            }
-        });
+        try{
+            redisTemplate.execute(new RedisCallback<Object>() {
+                @Override
+                public Object doInRedis(RedisConnection connection)
+                        throws DataAccessException {
+                    connection.set(key.getBytes(), value.getBytes());
+                    return null;
+                }
+            });
+        }catch (Exception e){
+            return;
+        }
     }
 
 
     public String read(final String key) {
-        return redisTemplate.execute(new RedisCallback<String>() {
-            @Override
-            public String doInRedis(RedisConnection connection)
-                    throws DataAccessException {
-                byte[] keyByte = key.getBytes();
-                if (connection.exists(keyByte)) {
-                    byte[] value = connection.get(keyByte);
-                    return new String(value);
+        try{
+            return redisTemplate.execute(new RedisCallback<String>() {
+                @Override
+                public String doInRedis(RedisConnection connection)
+                        throws DataAccessException {
+                    byte[] keyByte = key.getBytes();
+                    if (connection.exists(keyByte)) {
+                        byte[] value = connection.get(keyByte);
+                        return new String(value);
+                    }
+                    return null;
                 }
-                return null;
-            }
-        });
+            });
+        }catch (Exception e){
+            return "Can't Connect To Redis, Please Check Redis Service Is Running. ";
+        }
+
     }
 }

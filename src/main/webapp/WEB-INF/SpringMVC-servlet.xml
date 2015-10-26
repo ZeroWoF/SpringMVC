@@ -17,10 +17,11 @@
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
 
     <!--加载.properties配置文件-->
-    <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location">
-            <value>/WEB-INF/redis.properties</value>
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>/WEB-INF/redis.properties</value>
+            </list>
         </property>
         <property name="fileEncoding" value="utf-8"/>
     </bean>
