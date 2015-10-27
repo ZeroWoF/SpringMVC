@@ -14,11 +14,11 @@ public class HelloController {
     @Autowired
     BaseDAO baseDAO;
 
-    @RequestMapping(method = {RequestMethod.GET, RequestMethod.HEAD})
+    @RequestMapping(value = "login", method = {RequestMethod.GET, RequestMethod.HEAD})
     public String printWelcome(ModelMap model) {
         model.addAttribute("message", baseDAO.read("Test"));
         baseDAO.save("Test", String.valueOf(System.currentTimeMillis()));
-        return "hello";
+        return "login";
     }
 
     @RequestMapping(value = "jsp", method = RequestMethod.GET)

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="student" >
+  <resultMap id="BaseResultMap" class="com.yx.model.StudentDO" >
+    <result column="STUDENT_ID" property="studentId" jdbcType="VARCHAR" />
+    <result column="STUDENT_NAME" property="studentName" jdbcType="VARCHAR" />
+    <result column="STUDENT_SEX" property="studentSex" jdbcType="VARCHAR" />
+    <result column="STUDENT_BIRTHDAY" property="studentBirthday" jdbcType="DATE" />
+    <result column="CLASS_ID" property="classId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <iterate property="oredCriteria" conjunction="or" prepend="where" removeFirstPrepend="iterate" >
+      <isEqual property="oredCriteria[].valid" compareValue="true" >
+        (
+        <iterate prepend="and" property="oredCriteria[].criteriaWithoutValue" conjunction="and" >
+          $oredCriteria[].criteriaWithoutValue[]$
+        </iterate>
+        <iterate prepend="and" property="oredCriteria[].criteriaWithSingleValue" conjunction="and" >
+          $oredCriteria[].criteriaWithSingleValue[].condition$ #oredCriteria[].criteriaWithSingleValue[].value#
+        </iterate>
+        <iterate prepend="and" property="oredCriteria[].criteriaWithListValue" conjunction="and" >
+          $oredCriteria[].criteriaWithListValue[].condition$
+          <iterate property="oredCriteria[].criteriaWithListValue[].values" open="(" close=")" conjunction="," >
+            #oredCriteria[].criteriaWithListValue[].values[]#
+          </iterate>
+        </iterate>
+        <iterate prepend="and" property="oredCriteria[].criteriaWithBetweenValue" conjunction="and" >
+          $oredCriteria[].criteriaWithBetweenValue[].condition$
+          #oredCriteria[].criteriaWithBetweenValue[].values[0]# and
+          #oredCriteria[].criteriaWithBetweenValue[].values[1]#
+        </iterate>
+        )
+      </isEqual>
+    </iterate>
+  </sql>
+  <sql id="Base_Column_List" >
+    STUDENT_ID, STUDENT_NAME, STUDENT_SEX, STUDENT_BIRTHDAY, CLASS_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterClass="com.yx.model.StudentDOExample" >
+    select
+    <isParameterPresent >
+      <isEqual property="distinct" compareValue="true" >
+        distinct
+      </isEqual>
+    </isParameterPresent>
+    <include refid="student.Base_Column_List" />
+    from student
+    <isParameterPresent >
+      <include refid="student.Example_Where_Clause" />
+      <isNotNull property="orderByClause" >
+        order by $orderByClause$
+      </isNotNull>
+    </isParameterPresent>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="com.yx.model.StudentDO" >
+    select 
+    <include refid="student.Base_Column_List" />
+    from student
+    where STUDENT_ID = #studentId:VARCHAR#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="com.yx.model.StudentDO" >
+    delete from student
+    where STUDENT_ID = #studentId:VARCHAR#
+  </delete>
+  <delete id="deleteByExample" parameterClass="com.yx.model.StudentDOExample" >
+    delete from student
+    <include refid="student.Example_Where_Clause" />
+  </delete>
+  <insert id="insert" parameterClass="com.yx.model.StudentDO" >
+    insert into student (STUDENT_ID, STUDENT_NAME, STUDENT_SEX, STUDENT_BIRTHDAY, 
+      CLASS_ID)
+    values (#studentId:VARCHAR#, #studentName:VARCHAR#, #studentSex:VARCHAR#, #studentBirthday:DATE#, 
+      #classId:VARCHAR#)
+  </insert>
+  <insert id="insertSelective" parameterClass="com.yx.model.StudentDO" >
+    insert into student
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="studentId" >
+        STUDENT_ID
+      </isNotNull>
+      <isNotNull prepend="," property="studentName" >
+        STUDENT_NAME
+      </isNotNull>
+      <isNotNull prepend="," property="studentSex" >
+        STUDENT_SEX
+      </isNotNull>
+      <isNotNull prepend="," property="studentBirthday" >
+        STUDENT_BIRTHDAY
+      </isNotNull>
+      <isNotNull prepend="," property="classId" >
+        CLASS_ID
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="studentId" >
+        #studentId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="studentName" >
+        #studentName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="studentSex" >
+        #studentSex:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="studentBirthday" >
+        #studentBirthday:DATE#
+      </isNotNull>
+      <isNotNull prepend="," property="classId" >
+        #classId:VARCHAR#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <select id="countByExample" parameterClass="com.yx.model.StudentDOExample" resultClass="java.lang.Integer" >
+    select count(*) from student
+    <include refid="student.Example_Where_Clause" />
+  </select>
+  <update id="updateByExampleSelective" >
+    update student
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="record.studentId" >
+        STUDENT_ID = #record.studentId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.studentName" >
+        STUDENT_NAME = #record.studentName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.studentSex" >
+        STUDENT_SEX = #record.studentSex:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.studentBirthday" >
+        STUDENT_BIRTHDAY = #record.studentBirthday:DATE#
+      </isNotNull>
+      <isNotNull prepend="," property="record.classId" >
+        CLASS_ID = #record.classId:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    <isParameterPresent >
+      <include refid="student.Example_Where_Clause" />
+    </isParameterPresent>
+  </update>
+  <update id="updateByExample" >
+    update student
+    set STUDENT_ID = #record.studentId:VARCHAR#,
+      STUDENT_NAME = #record.studentName:VARCHAR#,
+      STUDENT_SEX = #record.studentSex:VARCHAR#,
+      STUDENT_BIRTHDAY = #record.studentBirthday:DATE#,
+      CLASS_ID = #record.classId:VARCHAR#
+    <isParameterPresent >
+      <include refid="student.Example_Where_Clause" />
+    </isParameterPresent>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterClass="com.yx.model.StudentDO" >
+    update student
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="studentName" >
+        STUDENT_NAME = #studentName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="studentSex" >
+        STUDENT_SEX = #studentSex:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="studentBirthday" >
+        STUDENT_BIRTHDAY = #studentBirthday:DATE#
+      </isNotNull>
+      <isNotNull prepend="," property="classId" >
+        CLASS_ID = #classId:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    where STUDENT_ID = #studentId:VARCHAR#
+  </update>
+  <update id="updateByPrimaryKey" parameterClass="com.yx.model.StudentDO" >
+    update student
+    set STUDENT_NAME = #studentName:VARCHAR#,
+      STUDENT_SEX = #studentSex:VARCHAR#,
+      STUDENT_BIRTHDAY = #studentBirthday:DATE#,
+      CLASS_ID = #classId:VARCHAR#
+    where STUDENT_ID = #studentId:VARCHAR#
+  </update>
+</sqlMap>
